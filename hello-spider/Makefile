@@ -34,9 +34,10 @@ debug: all
 release: all
 
 #
-# the list of C/C++ files to compile
+# the list of C/C++ and javascript files to compile
 #
-SOURCES=hello-spider.cpp
+SOURCES=blackdot.cpp\
+blackdotjs-api.js6
 
 #
 # the include directories we want the compiler to use
@@ -46,25 +47,26 @@ INC_DIRS=.
 #
 # describe our build to mutantspider.mk
 #
+ms.BUILD_NAME:=blackdot
 ms.INTERMEDIATE_DIR:=ms_tmp/obj
 ms.OUT_DIR:=ms_tmp/out
 ms.UPLOAD_PREP_DIR:=ms_temp/aws_prep
 ms.POST_DESC:=aws_post.json
-ms.API_FILE:=hello-spider.json
-ms.BUILD_NAME:=hello-spider
+ms.API_FILE:=blackdot.json
 
 #
 # list of files, beyond the ones that mutantspider.mk will produce
 # via a normal 'make' command, which consititue a full build
 #
-ms.ms.EXTRA_DEPLOY_FILES=\
+ms.EXTRA_DEPLOY_FILES=\
 index.html\
 hello-spider.js
 
 #
-# this defines the functions we use below
+# this reads the various ms.XXX things we have defined above
+# defines the functions we use below from them
 #
-include other_repos/mutantspider/mutantspider.mk
+include ../other_repos/mutantspider/mutantspider.mk
 
 #
 # this constructs all of the dependencies and build rules
@@ -110,7 +112,7 @@ all: $(DEPLOY_FILES)
 #  $1 = full path to the file that needs to be copied to deploy/$(CONFIG)
 #
 define copy_template
-$(DEPLOY_DIR)/$(CONFIG)/$(notdir $1): $1
+ms_tmp/local/$(CONFIG)/$(notdir $1): $1
 	@mkdir -p $$(@D)
 	$(call ms.CALL_TOOL,ln,-f $$< $$@,$$@)
 
@@ -119,7 +121,7 @@ endef
 #
 # instantiate an instance of copy_template for each file in $(MS_TARGETS) and $(ms.EXTRA_DEPLOY_FILES)
 #
-$(foreach cp_file,$(MS_TARGETS) $(ms.EXTRA_DEPLOY_FILES),$(eval $(call copy_template,$(cp_file))))
+$(foreach file,$(MS_TARGETS) $(ms.EXTRA_DEPLOY_FILES),$(eval $(call copy_template,$(file))))
 
 ########################################
 

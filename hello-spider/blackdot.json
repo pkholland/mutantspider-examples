@@ -1,0 +1,26 @@
+{
+  "js_to_c_files":[
+    "blackdot.cpp"
+  ],
+  "exported_c_functions":[
+    "BD_*"
+  ],
+  "c_to_js_files":[
+    "blackdot.h"
+  ],
+  "exported_js_functions":[
+    "bd_*"
+  ],
+  "submodules":[
+    {
+      "type": "asmjs-web-worker",
+      "asm_js_script_src": "blackdot.js",
+      "asm_js_module_name": "blackdot_Module",
+      "asm_js_memory": 268435456
+    },
+    {
+      "type": "nacl",
+      "nmf_name": "blackdot.nmf"
+    }
+  ]
+}

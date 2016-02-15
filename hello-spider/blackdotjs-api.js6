@@ -1,0 +1,4 @@
+import {set_bitmap_listener, gen_blackdot, load_blackdot} from './blackdotjs.js6';
+window.set_bitmap_listener = set_bitmap_listener;
+window.gen_blackdot = gen_blackdot;
+window.load_blackdot = load_blackdot;
