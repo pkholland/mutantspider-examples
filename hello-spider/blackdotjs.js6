@@ -113,7 +113,6 @@ class blackdot {
         console.error('component crash: ' + reason);
       },
 
-
       bd_show_bitmap(width, height, pixels) {
         if (this.bitmap_listener)
           this.bitmap_listener(width, height, pixels);

@@ -50,7 +50,7 @@ INC_DIRS=.
 ms.BUILD_NAME:=blackdot
 ms.INTERMEDIATE_DIR:=ms_tmp/obj
 ms.OUT_DIR:=ms_tmp/out
-ms.UPLOAD_PREP_DIR:=ms_temp/aws_prep
+ms.UPLOAD_PREP_DIR:=ms_tmp/aws_prep
 ms.POST_DESC:=aws_post.json
 ms.API_FILE:=blackdot.json
 
