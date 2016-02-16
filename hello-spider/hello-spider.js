@@ -10,6 +10,15 @@ document.addEventListener('DOMContentLoaded', function(event) {
       gen_blackdot(bd_elm.clientWidth, bd_elm.clientHeight, last_x, last_y);
     }
   }
+  
+  set_bitmap_listener(function(width, height, pixels) {
+    var canvas_ctx = bd_elm.getContext('2d');
+    var id = canvas_ctx.createImageData(width,height);
+    var buff = new Uint8ClampedArray( pixels, 0, width*4*height );
+    id.data.set(buff);
+    canvas_ctx.putImageData(id,0,0,0,0,width,height);
+    update_waiting = false;
+  });
 
   // initial display
   bd_elm.width = window.innerWidth;
@@ -42,16 +51,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
     evt.preventDefault();
     mouse_is_down = false;
   }
-  
-  set_bitmap_listener(function(width, height, pixels) {
-    var canvas_ctx = bd_elm.getContext('2d');
-    var id = canvas_ctx.createImageData(width,height);
-    var buff = new Uint8ClampedArray( pixels, 0, width*4*height );
-    id.data.set(buff);
-    canvas_ctx.putImageData(id,0,0,0,0,width,height);
-    update_waiting = false;
-  });
-  
+    
   window.addEventListener('resize',function() {
     bd_elm.width = window.innerWidth;
     if (bd_elm.width > 800)
