@@ -6,8 +6,8 @@
   <meta http-equiv="Expires" content="-1">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>File System Test</title>
-  <script type="text/javascript" src="mutantspider.js"></script>
-  <script type="text/javascript" src="file_system_boot.js"></script>
+  <script type="text/javascript" src="filesysjs-api.js"></script>
+  <script type="text/javascript" src="file-system.js"></script>
   <style>
   .error {
 	color: #c00000
@@ -15,11 +15,12 @@
   .heading {
     font-weight: bold
   }
+  .default {
+  }
   </style>
 </head>
 <body>
   <h1>File System Test</h1>
-  <h2>Status: <code id="statusField">NO-STATUS</code></h2>
   <p>Loading this page will test various aspects of the mutantspider file system code.  The first time
   it runs on your system (or the first time it runs after you have cleared your browser's history cache)
   the browser may tell you the page is requesting permission to store data locally.  Clicking "ok" or

@@ -1,0 +1,2 @@
+import {filesys_watch} from './filesysjs.js6';
+window.filesys_watch = filesys_watch;

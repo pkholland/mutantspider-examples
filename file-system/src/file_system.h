@@ -35,16 +35,17 @@ template<typename Func>
 void fs_output(const char* cls, int line_num, Func func)
 {
   std::ostringstream format;
- 
-  std::ostringstream loc;
-  loc << "<span class=\"" << cls << "\">[" << line_num << "]";
-  const int width = 6;
-  format << std::setiosflags(std::ios_base::left) << std::setfill(' ') << std::setw(width) << loc.str();
-
-  // the "body" of the anon_log message
-  func(format);
-  format << "</span><br>";
   
+  std::ostringstream body;
+  func(body);
+  std::string body_str = body.str();
+  bool heading_or_empty = (strcmp(cls,"heading") == 0) || !body_str.size();
+ 
+  format << "<span class=\"" << cls << "\">";
+  if (!heading_or_empty)
+    format << "[" << line_num << "]&nbsp;&nbsp;";
+  format << body_str << "</span><br>";
+
   fs_postMsg(format.str().c_str());
 }
 

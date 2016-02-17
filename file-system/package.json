@@ -1,7 +1,7 @@
 {
-  "name": "hello-spider",
+  "name": "file-system",
   "version": "0.0.1",
-  "description": "hello world -style example of mutantspider application",
+  "description": "test of file system code in mutantspider",
   "repository": {
     "type": "git",
     "url": "https://github.com/pkholland/mutantspider-examples.git"
