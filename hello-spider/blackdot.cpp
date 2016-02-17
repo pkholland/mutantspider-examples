@@ -49,7 +49,7 @@ void MS_AsyncStartupComplete()
 // code to allow javascript to call this function.
 void BD_GenBlackDot(int width, int height, int dot_x, int dot_y)
 {
-  // allocate the pixel storage for a bitmap that of dimensions <width,height>
+  // allocate the pixel storage for a bitmap of dimensions <width,height>
   int alloc_size = width *4 * height;
   uint32_t* data = static_cast<uint32_t*>(malloc(alloc_size));
   
