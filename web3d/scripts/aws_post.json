@@ -1,0 +1,9 @@
+{
+  "aws_region":"us-east-1",
+  "http_loc":"http://www.mutantspider.tech/",
+  "aws_profile":"mutantspider-dev",
+  "s3_bucket":"mutantspider-tech",
+  "ddb_table":"mutantspider-tech-db",
+  "sdk_component":"web3d"
+}
+

@@ -1,0 +1,5 @@
+import {importAsset, addToFileSystem, clearFileSystem, loadAssimpLib} from './assimpjs.js6';
+window.importAsset = importAsset;
+window.addToFileSystem = addToFileSystem;
+window.clearFileSystem = clearFileSystem;
+window.loadAssimpLib = loadAssimpLib;

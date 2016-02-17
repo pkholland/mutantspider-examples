@@ -1,0 +1,208 @@
+/*
+ *  assimp.js6
+ *
+ *
+ */
+
+import * as assimp_bind from 'assimp-bind';
+import * as ms_loader from 'mutantspider-loader';
+
+// private, "singleton" helper class to load and interface with
+class assimp {
+
+  callComponent(api, args) {
+    if (this.assimp_exports)
+      this.assimp_exports[api].apply(this, args);
+    else
+      this.delayed_calls.push({ api, args });
+  }
+
+  freeAsmjsResources(mod_id) {
+    if ((this.asmjs_id > -1) && (mod_id > this.asmjs_id)) {
+      if (this.modules[this.asmjs_id].type === 'asmjs-web-worker')
+        this.modules[this.asmjs_id].module.terminate();
+      else if (this.modules[this.asmjs_id].type === 'asmjs-direct')
+        window[this.modules[this.asmjs_id].js_module_name] = null;
+      delete this.modules[this.asmjs_id];
+
+      // delete any of these that we were keeping, and stop
+      // keeping new ones from here on out
+      //if (this.retain_buffer_copies) {
+        //for (var m in this.modelMap)
+          //delete this.modelMap[m]._imageBuffer;
+        //this.retain_buffer_copies = false;
+      //}
+    }
+  }
+
+
+  constructor() {
+
+    this.highest_loaded_module = -1;
+    this.asmjs_id = -1;
+    this.json_assimp_exports = {};
+    this.modules = {};
+    this.promiseMap = {};
+    this.next_id = 0;
+    this.delayed_calls = [];
+
+    // functions that can be called from the asm/pexe/worker to here
+    this.callbacks = {
+
+      ms_async_startup_complete: (mod_id) => {
+
+        if (mod_id > this.highest_loaded_module) {
+          if (!this.assimp_exports) {
+            this.assimp_exports = this.json_assimp_exports[mod_id];
+
+            this.delayed_calls.forEach(function(v, i, a) {
+              this.callComponent(v.api, v.args);
+            }, this);
+            this.delayed_calls = [];
+
+            this.freeAsmjsResources(mod_id);
+          } else {
+            // hot swap
+          }
+        } else {
+          if (mod_id === this.asmjs_id)
+            this.freeAsmjsResources(mod_id+1);
+        }
+        if ((mod_id === this.asmjs_id) && (this.modules[this.asmjs_id].type === 'asmjs-direct'))
+          window[this.modules[this.asmjs_id].js_module_name] = null;
+
+      },
+
+      ms_async_startup_failed: (mod_id, reason) => {
+        if (mod_id > this.highest_loaded_module)
+          console.log('startup failed: ' + reason);
+        if (mod_id === this.asmjs_id)
+          this.freeAsmjsResources(this.asmjs_id+1);
+      },
+
+      ms_error: (reason) => {
+        console.error('component error: ' + reason);
+      },
+
+      ms_crash(reason) {
+        console.error('component crash: ' + reason);
+      },
+
+      ai_resolve_asset_promise: (id, result) => {
+        let p = this.promiseMap[id];
+        delete this.promiseMap[id];
+        if (p)
+          p.resolve(result);
+      },
+
+      ai_resolve_fs_promise: (id) => {
+        let p = this.promiseMap[id];
+        delete this.promiseMap[id];
+        if (p)
+          p.resolve();
+      },
+
+      ai_reject_promise: (id, msg) => {
+        let p = this.promiseMap[id];
+        delete this.promiseMap[id];
+        if (p)
+          p.reject(msg);
+      }
+
+    };
+
+    ms_loader.load_modules(assimp_bind.submodules, (info) => {
+
+      this.modules[info.mod_id] = { type: info.submodule.type, module: info.module };
+      if (info.submodule.type === 'asmjs-direct') {
+        info.module.__ms_c_to_js_api__ = this.callbacks;
+        this.json_assimp_exports[info.mod_id] = assimp_bind.bind(this.callbacks, info.module, this);
+        this.asmjs_id = info.mod_id;
+        this.modules[info.mod_id].js_module_name = info.submodule.asm_js_module_name;
+        window[info.submodule.asm_js_module_name](info.module);
+      } else {
+        if (info.submodule.type === 'asmjs-web-worker')
+          this.asmjs_id = info.mod_id;
+        this.json_assimp_exports[info.mod_id] = assimp_bind.bind(this.callbacks, info.module, this);
+      }
+
+    });
+
+  }
+
+};
+
+var _ai;
+
+export function importAsset(file_name) {
+
+  if (!_ai)
+    _ai = new assimp();
+
+  let id = _ai.next_id++;
+
+  return new Promise((resolve, reject) => {
+
+    _ai.promiseMap[id] = {
+
+      resolve: (result) => {
+        resolve(result);
+      },
+
+      reject:(msg) => {
+        reject(msg);
+      }
+
+    };
+
+    _ai.callComponent('AI_ImportAsset', [id, file_name]);
+
+  });
+
+}
+
+export function addToFileSystem(path_name, is_directory, file_blob) {
+
+  if (!_ai)
+    _ai = new assimp();
+
+  let id = _ai.next_id++;
+
+  return new Promise((resolve, reject) => {
+
+    _ai.promiseMap[id] = {
+
+      resolve: () => {
+        resolve();
+      },
+
+      reject:(msg) => {
+        reject(msg);
+      }
+
+    };
+
+    if (is_directory)
+      _ai.callComponent('AI_AddDirectory', [id, path_name]);
+    else
+      _ai.callComponent('AI_AddFile', [id, file_blob, path_name]);
+
+  });
+
+}
+
+export function clearFileSystem(file_set) {
+
+  if (!_ai)
+    _ai = new assimp();
+  _ai.callComponent('AI_ClearFileSystem', []);
+
+}
+
+export function loadAssimpLib() {
+  if (!_ai)
+    _ai = new assimp();
+}
+
+
+

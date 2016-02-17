@@ -1,0 +1,20 @@
+{
+  "name": "w3d",
+  "version": "0.0.1",
+  "description": "web build of assimp library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pkholland/w3d.git"
+  },
+  "scripts": {
+    "install": "./scripts/npm_postInstall.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mutantspider-loader":"git+https://github.com/pkholland/mutantspider-loader.git",
+    "npm-gitter":"git+https://github.com/pkholland/npm-gitter.git"
+  },
+  "devDependencies": {
+  }
+}

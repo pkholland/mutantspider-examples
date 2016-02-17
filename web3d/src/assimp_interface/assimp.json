@@ -1,0 +1,26 @@
+{
+  "js_to_c_files":[
+    "main.cpp"
+  ],
+  "exported_c_functions":[
+    "AI_*"
+  ],
+  "c_to_js_files":[
+    "main.h"
+  ],
+  "exported_js_functions":[
+    "ai_*"
+  ],
+  "submodules":[
+    {
+      "type": "asmjs-web-worker",
+      "asm_js_script_src": "assimp.js",
+      "asm_js_module_name": "assimp_Module",
+      "asm_js_memory": 268435456
+    },
+    {
+      "type": "nacl",
+      "nmf_name": "assimp.nmf"
+    }
+  ]
+}

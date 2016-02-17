@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head profile="http://www.w3.org/2005/10/profile">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="-1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Web 3D Test</title>
+  <script type="text/javascript" src="assimpjs-api.js"></script>
+  <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+  <script type="text/javascript" src="webgl-debug.js"></script>
+  <script type="text/javascript" src="w3d_boot.js"></script>
+  <style>
+  .heading {
+    font-weight: bold
+  }
+  </style>
+</head>
+<body>
+
+  <script id="shader-fs" type="x-shader/x-fragment">
+    precision mediump float;
+    varying vec4 computed_color;
+    void main(void) {
+      gl_FragColor = computed_color;
+    }
+  </script>
+  
+  <script id="shader-vs" type="x-shader/x-vertex">
+    precision mediump float;
+    attribute vec3 aVertexPosition;
+    attribute vec3 aVertexNormal;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    
+    varying vec4 computed_color;
+  
+    void main(void) {
+      gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+      float val = 0.5 + (clamp(dot(uPMatrix * uMVMatrix * vec4(aVertexNormal, 1.0), vec4(-0.707107, 0.707107, 0.0, 0.0)), 0.0, 1.0)/2.0);
+      computed_color = vec4(val, val, val, 1.0);
+    }
+  </script>
+  
+  <h1>Web 3D Test</h1>
+  <canvas id="glcanvas" width="800" height="600">
+    Aw snap... your browser doesn't appear to support the <code>&lt;canvas&gt;</code> element.
+  </canvas>
+</body>
+</html>
