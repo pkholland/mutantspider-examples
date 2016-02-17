@@ -32,7 +32,7 @@ void fs_postMsg(const char* msg);
 }
 
 template<typename Func>
-void fs_output(const char* cls, int line_num, Func func)
+void fs_output(const char* cls, const char* file, int line_num, Func func)
 {
   std::ostringstream format;
   
@@ -40,18 +40,25 @@ void fs_output(const char* cls, int line_num, Func func)
   func(body);
   std::string body_str = body.str();
   bool heading_or_empty = (strcmp(cls,"heading") == 0) || !body_str.size();
+  bool is_error = strcmp(cls,"error") == 0;
  
   format << "<span class=\"" << cls << "\">";
-  if (!heading_or_empty)
-    format << "[" << line_num << "]&nbsp;&nbsp;";
+  if (!heading_or_empty) {
+    if (is_error)
+      format << "<a href=\"https://github.com/pkholland/mutantspider-examples/tree/master/file-system/" << file << "#L" << line_num << "\">";
+    format << "[" << line_num << "]";
+    if (is_error)
+      format << "</a>";
+    format << "&nbsp;&nbsp;";
+  }
   format << body_str << "</span><br>";
 
   fs_postMsg(format.str().c_str());
 }
 
-#define fs_postLine(_body) fs_output("default", __LINE__, [&](std::ostream& formatter) {formatter << _body;})
-#define fs_postError(_body) fs_output("error", __LINE__, [&](std::ostream& formatter) {formatter << _body;})
-#define fs_postHeading(_body) fs_output("heading", __LINE__, [&](std::ostream& formatter) {formatter << _body;})
+#define fs_postLine(_body) fs_output("default", __FILE__, __LINE__, [&](std::ostream& formatter) {formatter << _body;})
+#define fs_postError(_body) fs_output("error", __FILE__, __LINE__, [&](std::ostream& formatter) {formatter << _body;})
+#define fs_postHeading(_body) fs_output("heading", __FILE__, __LINE__, [&](std::ostream& formatter) {formatter << _body;})
 
 
 inline std::string errno_string()
