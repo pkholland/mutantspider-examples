@@ -50,10 +50,10 @@ void MS_AsyncStartupComplete()
 void BD_GenBlackDot(int width, int height, int dot_x, int dot_y)
 {
   // allocate the pixel storage for a bitmap of dimensions <width,height>
-  int alloc_size = width *4 * height;
+  int alloc_size = width * 4 * height;
   uint32_t* data = static_cast<uint32_t*>(malloc(alloc_size));
   
-  // paint the red field with a black circle around the current mouse position
+  // paint the red field with a black circle around <dot_x, dot_y>
   size_t offset = 0;
   for (int y=0;y<height;y++)
   {
