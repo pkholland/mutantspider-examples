@@ -1,0 +1,24 @@
+{
+  "js_to_c_files":[
+  ],
+  "exported_c_functions":[
+  ],
+  "c_to_js_files":[
+    "file_system.h"
+  ],
+  "exported_js_functions":[
+    "fs_postMsg"
+  ],
+  "submodules":[
+    {
+      "type": "asmjs-web-worker",
+      "asm_js_script_src": "filesys.js",
+      "asm_js_module_name": "filesys_Module",
+      "asm_js_memory": 268435456
+    },
+    {
+      "type": "nacl",
+      "nmf_name": "filesys.nmf"
+    }
+  ]
+}
