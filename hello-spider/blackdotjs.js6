@@ -17,9 +17,10 @@ class blackdot {
   // record the call we are trying to make.  Otherwise call
   // into the component
   callComponent(api, args) {
-    if (this.blackdot_exports)
+    if (this.blackdot_exports) {
       this.blackdot_exports[api].apply(this, args);
-    else
+      this.last_call = {api:api, args:args};
+    } else
       this.delayed_calls.push({ api, args });
   }
 
@@ -78,6 +79,8 @@ class blackdot {
             // to that one
             this.blackdot_exports = this.json_blackdot_exports[mod_id];
             this.freeAsmjsResources(mod_id);
+            if (this.last_call)
+              this.callComponent(this.last_call.api, this.last_call.args);
           }
         } else {
           // here it must be that the pexe version loaded first

@@ -17,14 +17,14 @@
   <a href="https://github.com/pkholland/mutantspider-examples/blob/master/hello-spider/blackdot.cpp#L50-L83">
   <code>BD_GenBlackDot</code></a> function for the code that generates the red bitmap with the black dot. This function
   is called from javascript by
-  <a href="https://github.com/pkholland/mutantspider-examples/blob/master/hello-spider/blackdotjs.js6#L161-L164">
+  <a href="https://github.com/pkholland/mutantspider-examples/blob/master/hello-spider/blackdotjs.js6#L164-L167">
   this support code</a>, which is called from
   <a href="https://github.com/pkholland/mutantspider-examples/blob/master/hello-spider/hello-spider.js#L10">
   this</a> simple javascript code.  After generating the updated bitmap, the <code>BD_GenBlackDot</code> C++ function
   "returns" the bitmap to the javascript code by calling <code>bd_show_bitmap</code>
   <a href="https://github.com/pkholland/mutantspider-examples/blob/master/hello-spider/blackdot.cpp#L81">here</a>.
   That C++ function call results in
-  <a href="https://github.com/pkholland/mutantspider-examples/blob/master/hello-spider/blackdotjs.js6#L116-L119">
+  <a href="https://github.com/pkholland/mutantspider-examples/blob/master/hello-spider/blackdotjs.js6#L119-L121">
   this</a> javascript code being called, which calls back the "listener" that was previous registered.  That listener is
   <a href="https://github.com/pkholland/mutantspider-examples/blob/master/hello-spider/hello-spider.js#L14-L21">
   registered here</a>, giving it the code that actually updates the DOM itself.
