@@ -79,4 +79,5 @@ This example project builds the test and verification code for both of the file 
 that mutantspider implements.  You build and run this project the same way you do
 for the hello_spider example.  The visual result of the web page is mostly just telling
 you whether all tests passed, or if not, which ones failed.  But you can use the
-source code in this example to see how these services are intended to be used.
+source code in this example to see how these services are intended to be used.  A pre-built
+version of this code can be found [here](http://www.mutantspider.tech/code/file-system/index.html)
