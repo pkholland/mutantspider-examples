@@ -36,6 +36,8 @@ static std::string gModels("/.models");
 
 std::string mkpth(const char* path)
 {
+  if (strstr(path, "/resources/") == path)
+    return path;
   return gModels + (path[0] == '/' ? "" : "/") + path;
 }
 

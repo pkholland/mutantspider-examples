@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
       }
       if (file_names.length === 1)
-      start_render(file_names[0]);
+        start_render(file_names[0]);
     },function() {
       console.error('file system transfer failed');
     });
@@ -343,6 +343,19 @@ document.addEventListener('DOMContentLoaded', function(event) {
   
   loadAssimpLib();
 
+  if (!gl) {
+    var canvas = document.getElementById("glcanvas");
+    initWebGL(canvas);
+    
+    if (gl) {
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.clearDepth(1.0);
+      gl.enable(gl.DEPTH_TEST);
+      gl.depthFunc(gl.LEQUAL);
+      initShaders(gl);
+    }
+  }
+  start_render("/resources/WusonOBJ.obj");
   
 });
 

@@ -88,6 +88,12 @@ w3d_boot.js\
 src/glMatrix-0.9.5.min.js
 
 #
+# List this one file as a "resource" so the C++ code can find
+# it via fopen
+#
+RESOURCES=../other_repos/assimp/test/models/OBJ/WusonOBJ.obj
+
+#
 # this defines the functions we use below
 #
 include ../other_repos/mutantspider/mutantspider.mk

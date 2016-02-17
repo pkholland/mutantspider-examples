@@ -43,6 +43,15 @@
   </script>
   
   <h1>Web 3D Test</h1>
+  <p>
+  Once the "spinning bull" displays below, drag and drop any other 3D file onto that square.  The
+  code for parsing 3D file formats is the C++ code from the <a href="https://github.com/assimp/assimp">
+  Open Asset Import Library</a>.  This page then contains a (very) simple (and not really even correct) webgl
+  viewer written in javascript which calls the C++ -based Asset Importer code to parse the file and return
+  a json description of the geometry of the file. The javascript/webgl viewer then just displays that.  The
+  initial, spinning bull displays because the file for that object is built into the web page, so it starts
+  with that one.
+  </p>
   <canvas id="glcanvas" width="800" height="600">
     Aw snap... your browser doesn't appear to support the <code>&lt;canvas&gt;</code> element.
   </canvas>
