@@ -18,7 +18,8 @@
     },
     {
       "type": "nacl",
-      "nmf_name": "filesys.nmf"
+      "nmf_name": "filesys.nmf",
+      "local_storage":52428800
     }
   ]
 }
